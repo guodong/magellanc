@@ -2,11 +2,12 @@ struct Packet {
   int dstIp
   int dstPort
 }
-void onPacket(struct Packet p) {
+int onPacket(struct Packet p) {
+  int outPort
   if (p.dstPort > 1024) {
-    return 0
+    outPort = 0
   } else {
-    return 1
+    outPort = 4
   }
-  
+  return outPort
 }
