@@ -1,0 +1,12 @@
+struct Packet {
+  int dstIp
+  int dstPort
+}
+void onPacket(struct Packet p) {
+  if (p.dstPort > 1024) {
+    return 0
+  } else {
+    return 1
+  }
+  
+}
