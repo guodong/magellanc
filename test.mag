@@ -7,9 +7,9 @@ struct Packet {
 }
 
 # check whether port open
-int isOpen(port_t port) {
+bool isOpen(port_t port) {
   port_t[2] openPorts = [8080, 8081]
-  int open = 0
+  bool open = 0
   int i = 0
   for (i; i < 2; i = i + 1) {
     if (port == openPorts[i]) {
