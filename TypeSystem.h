@@ -85,7 +85,9 @@ class TypeSystem{
   Type* stringTy = Type::getInt8PtrTy(llvmContext);
   Type* voidTy = Type::getVoidTy(llvmContext);
   Type* boolTy = Type::getInt1Ty(llvmContext);
-  Type* portTy = Type::getInt16Ty(llvmContext);
+  Type* int16Ty = Type::getInt16Ty(llvmContext);
+  Type* int8Ty = Type::getInt8Ty(llvmContext);
+  Type* int64Ty = Type::getInt64Ty(llvmContext);
 
 
   TypeSystem(LLVMContext& context);

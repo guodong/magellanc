@@ -42,6 +42,7 @@ class CodeGenContext{
   unique_ptr<Module> theModule;
   SymTable globalVars;
   TypeSystem typeSystem;
+  Module *module;
 
   CodeGenContext(): builder(llvmContext), typeSystem(llvmContext){
     theModule = unique_ptr<Module>(new Module("main", this->llvmContext));

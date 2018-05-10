@@ -19,8 +19,14 @@
 "for"                   return TOKEN(TFOR);
 "while"                 return TOKEN(TWHILE);
 "struct"                return TOKEN(TSTRUCT);
-"int"                   SAVE_TOKEN; return TYINT;
+
+"ip_t"                  SAVE_TOKEN; return TYINT;
 "port_t"		SAVE_TOKEN; return TYPORT;
+
+"int64_t"		SAVE_TOKEN; return TYINT64;
+"int"			SAVE_TOKEN; return TYINT;
+"int16_t"		SAVE_TOKEN; return TYINT16;
+"int8_t"		SAVE_TOKEN; return TYINT8;
 "double"                SAVE_TOKEN; return TYDOUBLE;
 "float"                 SAVE_TOKEN; return TYFLOAT;
 "char"                  SAVE_TOKEN; return TYCHAR;
@@ -28,6 +34,7 @@
 "string"                SAVE_TOKEN; return TYSTRING;
 "void"                  SAVE_TOKEN; return TYVOID;
 "extern"                SAVE_TOKEN; return TEXTERN;
+
 
 [a-zA-Z_][a-zA-Z0-9_]*	SAVE_TOKEN; return TIDENTIFIER;
 [0-9]+\.[0-9]*		SAVE_TOKEN; return TDOUBLE;

@@ -22,11 +22,11 @@
    int token;
 }
 
-%token <string> TIDENTIFIER TINTEGER TDOUBLE TYINT TYDOUBLE TYFLOAT TYCHAR TYBOOL TYVOID TYSTRING TEXTERN TLITERAL TYPORT
+%token <string> TIDENTIFIER TINTEGER TDOUBLE TYINT TYDOUBLE TYFLOAT TYCHAR TYBOOL TYVOID TYSTRING TEXTERN TLITERAL TYINT64 TYINT32 TYINT16 TYINT8  TYIP TYPORT
 %token <token> TCEQ TCNE TCLT TCLE TCGT TCGE TEQUAL
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TCOMMA TDOT TSEMICOLON TLBRACKET TRBRACKET TQUOTATION
 %token <token> TPLUS TMINUS TMUL TDIV TAND TOR TXOR TMOD TNEG TNOT TSHIFTL TSHIFTR
-%token <token> TIF TELSE TFOR TWHILE TRETURN TSTRUCT
+%token <token> TIF TELSE TFOR TWHILE TRETURN TSTRUCT TPACKET
 %type <index> array_index
 %type <ident> ident primary_typename array_typename struct_typename typename
 %type <expr> numeric expr assign
@@ -67,6 +67,11 @@ primary_typename : TYINT { $$ = new NIdentifier(*$1); $$->isType = true;  delete
 	| TYBOOL { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
 	| TYVOID { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
 	| TYSTRING { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
+	| TYINT64 { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
+	| TYINT32 { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
+	| TYINT16 { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
+	| TYINT8 { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
+	| TYIP { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
 	| TYPORT { $$ = new NIdentifier(*$1); $$->isType = true; delete $1; }
 	;
 
@@ -81,10 +86,8 @@ array_typename : primary_typename TLBRACKET TINTEGER TRBRACKET {
  	}
 	;
 
-struct_typename : TSTRUCT ident {
-  $2->isType = true;
-  $$ = $2;
- }
+struct_typename : TSTRUCT ident { $2->isType = true; $$ = $2; }
+	|  TPACKET ident { $2->isType = true; $$ = $2; }
 	;
 
 typename : primary_typename { $$ = $1; }
@@ -173,6 +176,7 @@ while_stmt : TWHILE TLPAREN expr TRPAREN block { $$ = new NForStatement(shared_p
 	;
 
 struct_decl : TSTRUCT ident TLBRACE struct_members TRBRACE {$$ = new NStructDeclaration(shared_ptr<NIdentifier>($2), shared_ptr<VariableList>($4)); }
+	| TPACKET ident TLBRACE struct_members TRBRACE {$$ = new NStructDeclaration(shared_ptr<NIdentifier>($2), shared_ptr<VariableList>($4)); }
 	;
 
 struct_members : /* blank */ { $$ = new VariableList(); }

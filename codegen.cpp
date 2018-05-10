@@ -56,10 +56,13 @@ void CodeGenContext::generateCode(NBlock& root) {
   popBlock();
 
   cout << "Code generate success" << endl;
+  theModule->dump();
 
+  /*
   PassManager passManager;
   passManager.add(createPrintModulePass(outs()));
   passManager.run(*(this->theModule.get()));
+  */
   return;
 }
 
@@ -193,10 +196,10 @@ llvm::Value* NFunctionDeclaration::codeGen(CodeGenContext &context) {
   cout << "Generating function declaration of " << this->id->name << endl;
   std::vector<Type*> argTypes;
 
-  for(auto &arg: *this->arguments){
-    if( arg->type->isArray ){
+  for (auto &arg: *this->arguments) {
+    if (arg->type->isArray) {
       argTypes.push_back(PointerType::get(context.typeSystem.getVarType(arg->type->name), 0));
-    } else{
+    } else {
       argTypes.push_back(TypeOf(*arg->type, context));
     }
   }
@@ -221,7 +224,7 @@ llvm::Value* NFunctionDeclaration::codeGen(CodeGenContext &context) {
     for (auto &ir_arg_it: function->args()) {
       ir_arg_it.setName((*origin_arg)->id->name);
       Value* argAlloc;
-      if( (*origin_arg)->type->isArray )
+      if ((*origin_arg)->type->isArray)
         argAlloc = context.builder.CreateAlloca(PointerType::get(context.typeSystem.getVarType((*origin_arg)->type->name), 0));
       else
         argAlloc = (*origin_arg)->codeGen(context);

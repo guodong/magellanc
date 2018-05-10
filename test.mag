@@ -1,13 +1,21 @@
 struct Packet {
-  int dstIp
-  int dstPort
+  ip_t src_ip
+  ip_t dst_ip
+  port_t src_port
+  port_t dst_port
+  int8_t protocol
 }
+
+
 int onPacket(struct Packet p) {
-  int outPort
-  if (p.dstPort > 1024) {
-    outPort = 0
-  } else {
-    outPort = 4
+  int egress = 0
+  if (p.src_ip == 167772161) {
+     if (p.dst_ip == 167772162) {
+       if (p.dst_port < 1025) {
+         egress = 1
+        }
+     }
   }
-  return outPort
+  return egress
 }
+

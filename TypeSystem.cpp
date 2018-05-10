@@ -1,5 +1,5 @@
 #include "TypeSystem.h"
-#include "CodeGen.h"
+#include "codegen.h"
 //
 //Value* VarType::getDefaultValue(LLVMContext &context) const {
 //    if( this->name == "int" ){
@@ -150,29 +150,44 @@ long TypeSystem::getStructMemberIndex(string structName, string memberName) {
 
 Type *TypeSystem::getVarType(string typeStr) {
 
-  if( typeStr.compare("int") == 0 ){
+  if (typeStr.compare("int") == 0) {
     return this->intTy;
   }
-  if( typeStr.compare("float") == 0 ){
+  if (typeStr.compare("float") == 0) {
     return this->floatTy;
   }
-  if( typeStr.compare("double") == 0 ){
+  if (typeStr.compare("double") == 0) {
     return this->doubleTy;
   }
-  if( typeStr.compare("bool") == 0 ){
+  if (typeStr.compare("bool") == 0) {
     return this->boolTy;
   }
-  if( typeStr.compare("char") == 0 ){
+  if (typeStr.compare("char") == 0) {
     return this->charTy;
   }
-  if( typeStr.compare("void") == 0 ){
+  if (typeStr.compare("void") == 0) {
     return this->voidTy;
   }
-  if( typeStr.compare("string") == 0 ){
+  if (typeStr.compare("string") == 0) {
     return this->stringTy;
   }
+  if (typeStr.compare("ip_t") == 0) {
+    return this->intTy;
+  }
   if (typeStr.compare("port_t") == 0) {
-    return this->portTy;
+    return this->int16Ty;
+  }
+  if (typeStr.compare("in32_t") == 0) {
+    return this->intTy;
+  }
+  if (typeStr.compare("int16_t") == 0) {
+    return this->int16Ty;
+  }
+  if (typeStr.compare("int8_t") == 0) {
+    return this->int8Ty;
+  }
+  if (typeStr.compare("int64_t") == 0) {
+    return this->int64Ty;
   }
 
   if( this->_structTypes.find(typeStr) != this->_structTypes.end() )
