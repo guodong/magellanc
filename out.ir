@@ -64,41 +64,49 @@ entry:
   store %Packet %p, %Packet* %0
   %1 = alloca i32
   store i32 0, i32* %1
+  %2 = alloca i16
+  store i32 1025, i16* %2
   %structPtr = load %Packet, %Packet* %0, align 4
   %memberPtr = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 0
-  %2 = load i32, i32* %memberPtr
-  %cmptmp = icmp eq i32 %2, 167772161
-  %3 = icmp ne i1 %cmptmp, false
-  br i1 %3, label %then, label %ifcont9
+  %3 = load i32, i32* %memberPtr
+  %cmptmp = icmp eq i32 %3, 167772161
+  %4 = icmp ne i1 %cmptmp, false
+  br i1 %4, label %then, label %ifcont9
 
 then:                                             ; preds = %entry
   %structPtr1 = load %Packet, %Packet* %0, align 4
-  %memberPtr2 = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 1
-  %4 = load i32, i32* %memberPtr2
-  %cmptmp3 = icmp eq i32 %4, 167772162
-  %5 = icmp ne i1 %cmptmp3, false
-  br i1 %5, label %then4, label %ifcont8
+  %memberPtr2 = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 3
+  %5 = load i16, i16* %memberPtr2
+  %arrayPtr = load i16, i16* %2
+  %6 = load i16, i16* %2
+  %cmptmp3 = icmp ult i16 %5, %6
+  %7 = icmp ne i1 %cmptmp3, false
+  br i1 %7, label %then4, label %else
 
 then4:                                            ; preds = %then
-  %structPtr5 = load %Packet, %Packet* %0, align 4
-  %memberPtr6 = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 3
-  %6 = load i16, i16* %memberPtr6
-  %calltmp = call i1 @isOpen(i16 %6)
-  %7 = icmp ne i1 %calltmp, false
-  br i1 %7, label %then7, label %ifcont
-
-then7:                                            ; preds = %then4
   store i32 1, i32* %1
-  br label %ifcont
-
-ifcont:                                           ; preds = %then7, %then4
   br label %ifcont8
 
-ifcont8:                                          ; preds = %ifcont, %then
+else:                                             ; preds = %then
+  %structPtr5 = load %Packet, %Packet* %0, align 4
+  %memberPtr6 = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 3
+  %8 = load i16, i16* %memberPtr6
+  %calltmp = call i1 @isOpen(i16 %8)
+  %9 = icmp ne i1 %calltmp, false
+  br i1 %9, label %then7, label %ifcont
+
+then7:                                            ; preds = %else
+  store i32 2, i32* %1
+  br label %ifcont
+
+ifcont:                                           ; preds = %then7, %else
+  br label %ifcont8
+
+ifcont8:                                          ; preds = %ifcont, %then4
   br label %ifcont9
 
 ifcont9:                                          ; preds = %ifcont8, %entry
-  %arrayPtr = load i32, i32* %1
-  %8 = load i32, i32* %1
-  ret i32 %8
+  %arrayPtr10 = load i32, i32* %1
+  %10 = load i32, i32* %1
+  ret i32 %10
 }

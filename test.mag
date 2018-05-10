@@ -22,11 +22,13 @@ bool isOpen(port_t port) {
 int onPacket(struct Packet p) {
   # egress 0 means drop
   int egress = 0
-  
+  port_t pt = 1025
   if (p.src_ip == 167772161) {
-     if (p.dst_ip == 167772162) {
+     if (p.dst_port < pt) {
+       egress = 1
+     } else {
        if (isOpen(p.dst_port)) {
-         egress = 1
+         egress = 2
        }
      }
   }
