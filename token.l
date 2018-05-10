@@ -20,7 +20,7 @@
 "while"                 return TOKEN(TWHILE);
 "struct"                return TOKEN(TSTRUCT);
 
-"ip_t"                  SAVE_TOKEN; return TYINT;
+"ip_t"                  SAVE_TOKEN; return TYIP;
 "port_t"		SAVE_TOKEN; return TYPORT;
 
 "int64_t"		SAVE_TOKEN; return TYINT64;

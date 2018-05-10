@@ -20,7 +20,7 @@ bool isOpen(port_t port) {
 }
 
 int onPacket(struct Packet p) {
-
+  # egress 0 means drop
   int egress = 0
   
   if (p.src_ip == 167772161) {
@@ -30,6 +30,7 @@ int onPacket(struct Packet p) {
        }
      }
   }
+  
   return egress
 }
 

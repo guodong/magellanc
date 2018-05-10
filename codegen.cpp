@@ -173,7 +173,7 @@ llvm::Value* NIdentifier::codeGen(CodeGenContext &context) {
   if (!value) {
     return LogErrorV("Unknown variable name " + this->name);
   }
-  /*if (value->getType()->isPointerTy()) {
+  if (value->getType()->isPointerTy()) {
     auto arrayPtr = context.builder.CreateLoad(value, "arrayPtr");
     if (arrayPtr->getType()->isArrayTy()) {
       cout << "(Array Type)" << endl;
@@ -183,7 +183,7 @@ llvm::Value* NIdentifier::codeGen(CodeGenContext &context) {
       auto ptr = context.builder.CreateInBoundsGEP(value, indices, "arrayPtr");
       return ptr;
     }
-    }*/
+    }
   
   return context.builder.CreateLoad(value, false, "");
 }

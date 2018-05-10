@@ -863,7 +863,7 @@ return TOKEN(TSTRUCT);
 case 9:
 YY_RULE_SETUP
 #line 23 "token.l"
-SAVE_TOKEN; return TYINT;
+SAVE_TOKEN; return TYIP;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP

@@ -1,0 +1,104 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+%Packet = type { i32, i32, i16, i16, i8 }
+
+define i1 @isOpen(i16 %port) {
+entry:
+  %0 = alloca i16
+  store i16 %port, i16* %0
+  %arraytmp = alloca [2 x i16], i32 2
+  %arrayPtr = load [2 x i16], [2 x i16]* %arraytmp
+  %elementPtr = getelementptr inbounds [2 x i16], [2 x i16]* %arraytmp, i64 0, i32 0
+  store i32 8080, i16* %elementPtr, align 4
+  %arrayPtr1 = load [2 x i16], [2 x i16]* %arraytmp
+  %elementPtr2 = getelementptr inbounds [2 x i16], [2 x i16]* %arraytmp, i64 0, i32 1
+  store i32 8081, i16* %elementPtr2, align 4
+  %1 = alloca i1
+  store i32 0, i1* %1
+  %2 = alloca i32
+  store i32 0, i32* %2
+  %arrayPtr3 = load i32, i32* %2
+  %3 = load i32, i32* %2
+  %arrayPtr4 = load i32, i32* %2
+  %4 = load i32, i32* %2
+  %cmptmp = icmp ult i32 %4, 2
+  %5 = icmp ne i1 %cmptmp, false
+  br i1 %5, label %forloop, label %forcont
+
+forloop:                                          ; preds = %ifcont, %entry
+  %arrayPtr5 = load i16, i16* %0
+  %6 = load i16, i16* %0
+  %arrayPtr6 = load i32, i32* %2
+  %7 = load i32, i32* %2
+  %elementPtr7 = getelementptr inbounds [2 x i16], [2 x i16]* %arraytmp, i64 0, i32 %7
+  %8 = load i16, i16* %elementPtr7, align 4
+  %cmptmp8 = icmp eq i16 %6, %8
+  %9 = icmp ne i1 %cmptmp8, false
+  br i1 %9, label %then, label %ifcont
+
+then:                                             ; preds = %forloop
+  store i32 1, i1* %1
+  br label %ifcont
+
+ifcont:                                           ; preds = %then, %forloop
+  %arrayPtr9 = load i32, i32* %2
+  %10 = load i32, i32* %2
+  %addtmp = add i32 %10, 1
+  store i32 %addtmp, i32* %2
+  %arrayPtr10 = load i32, i32* %2
+  %11 = load i32, i32* %2
+  %cmptmp11 = icmp ult i32 %11, 2
+  %12 = icmp ne i1 %cmptmp11, false
+  br i1 %12, label %forloop, label %forcont
+
+forcont:                                          ; preds = %ifcont, %entry
+  %arrayPtr12 = load i1, i1* %1
+  %13 = load i1, i1* %1
+  ret i1 %13
+}
+
+define i32 @onPacket(%Packet %p) {
+entry:
+  %0 = alloca %Packet
+  store %Packet %p, %Packet* %0
+  %1 = alloca i32
+  store i32 0, i32* %1
+  %structPtr = load %Packet, %Packet* %0, align 4
+  %memberPtr = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 0
+  %2 = load i32, i32* %memberPtr
+  %cmptmp = icmp eq i32 %2, 167772161
+  %3 = icmp ne i1 %cmptmp, false
+  br i1 %3, label %then, label %ifcont9
+
+then:                                             ; preds = %entry
+  %structPtr1 = load %Packet, %Packet* %0, align 4
+  %memberPtr2 = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 1
+  %4 = load i32, i32* %memberPtr2
+  %cmptmp3 = icmp eq i32 %4, 167772162
+  %5 = icmp ne i1 %cmptmp3, false
+  br i1 %5, label %then4, label %ifcont8
+
+then4:                                            ; preds = %then
+  %structPtr5 = load %Packet, %Packet* %0, align 4
+  %memberPtr6 = getelementptr inbounds %Packet, %Packet* %0, i32 0, i32 3
+  %6 = load i16, i16* %memberPtr6
+  %calltmp = call i1 @isOpen(i16 %6)
+  %7 = icmp ne i1 %calltmp, false
+  br i1 %7, label %then7, label %ifcont
+
+then7:                                            ; preds = %then4
+  store i32 1, i32* %1
+  br label %ifcont
+
+ifcont:                                           ; preds = %then7, %then4
+  br label %ifcont8
+
+ifcont8:                                          ; preds = %ifcont, %then
+  br label %ifcont9
+
+ifcont9:                                          ; preds = %ifcont8, %entry
+  %arrayPtr = load i32, i32* %1
+  %8 = load i32, i32* %1
+  ret i32 %8
+}
