@@ -35,7 +35,7 @@ static llvm::Value* calcArrayIndex(shared_ptr<NArrayIndex> index, CodeGenContext
   assert(sizeVec.size() > 0 && sizeVec.size() == index->expressions->size());
   auto expression = *(index->expressions->rbegin());
 
-  for (unsigned int i=sizeVec.size()-1; i>=1; i--) {
+  for (unsigned int i = sizeVec.size() - 1; i >= 1; i--) {
     auto temp = make_shared<NBinaryOperator>(make_shared<NInteger>(sizeVec[i]), TMUL, index->expressions->at(i-1));
     expression = make_shared<NBinaryOperator>(temp, TPLUS, expression);
   }
@@ -58,11 +58,11 @@ void CodeGenContext::generateCode(NBlock& root) {
   cout << "Code generate success" << endl;
   theModule->dump();
 
-  /*
-  PassManager passManager;
-  passManager.add(createPrintModulePass(outs()));
-  passManager.run(*(this->theModule.get()));
-  */
+  
+    PassManager passManager;
+    passManager.add(createPrintModulePass(outs()));
+    passManager.run(*(this->theModule.get()));
+  
   return;
 }
 
@@ -183,7 +183,7 @@ llvm::Value* NIdentifier::codeGen(CodeGenContext &context) {
       auto ptr = context.builder.CreateInBoundsGEP(value, indices, "arrayPtr");
       return ptr;
     }
-    }
+  }
   
   return context.builder.CreateLoad(value, false, "");
 }

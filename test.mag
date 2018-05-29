@@ -6,35 +6,56 @@ struct Packet {
   int8_t protocol
 }
 
-# check whether port open
-bool isOpen(port_t port) {
-  port_t[2] openPorts = [8080, 8081]
-  bool open = 0
+struct Switch {
+  string vendor
+  
+}
+
+struct Env {
+  
+}
+
+struct Output {
+  struct Switch switch
+  int egress
+}
+
+struct NetworkCompute {
+  struct Output outs # should be list
+}
+
+port_t[2] openPorts = [8080, 8081]
+
+# Access control
+int isAllowed(port_t port) {
+  
+  int allow = 0
   int i = 0
   for (i; i < 2; i = i + 1) {
     if (port == openPorts[i]) {
-      open = 1
+      allow = 1
     }
   }
-  return open
+  return allow
 }
 
-int onPacket(struct Packet p) {
-  # egress 0 means drop
-  int egress = 0
-  port_t pt = 1025
-  if (p.src_ip == 167772161) {
-     if (p.dst_port < pt) {
-       egress = 1
+int onPacket(struct Packet pkt, struct Env env) {
+  # egress -1 means drop, 0 means broadcast
+  int egress = -1
+  
+  if (pkt.src_ip == 167772161) {
+     if (pkt.dst_port < 1025) {
+       egress = 1 # goto port 1
      } else {
-       if (isOpen(p.dst_port)) {
-         egress = 2
+       if (isAllowed(pkt.dst_port)) {
+         egress = 2 # goto port 2
        }
      }
+  } else {
+    # broadcast packet
+    egress = 0
   }
   
   return egress
 }
 
-
-  

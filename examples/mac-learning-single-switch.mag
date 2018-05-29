@@ -1,0 +1,22 @@
+#include <map>
+#include <string>
+using namespace std;
+
+typedef struct {
+  string src_mac;
+  string dst_mac;
+  int ingress;
+} Packet;
+
+typedef struct {
+  map<string, int> host_table;
+} Switch;
+
+int onPacket(Packet pkt, Switch sw) {
+  int egress;
+  if (!sw.host_table[pkt.src_mac]) {
+    sw.host_table[pkt.src_mac] = pkt.ingress
+  }
+
+  return egress;
+}

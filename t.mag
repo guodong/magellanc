@@ -1,0 +1,38 @@
+struct Packet {
+  ip_t src_ip
+  ip_t dst_ip
+  int src_port
+  int dst_port
+  int8_t protocol
+}
+
+# check whether port open
+int isOpen(int port) {
+  int[2] openPorts = [8080, 8081]
+  int open = 0
+  int i = 0
+  for (i; i < 2; i = i + 1) {
+    if (port == openPorts[i]) {
+      open = 1
+    }
+  }
+  return open
+}
+
+int onPacket(struct Packet p) {
+  # egress 0 means drop
+  int egress = 0
+  
+  if (p.src_ip == 167772161) {
+     if (p.dst_ip == 167772162) {
+       if (isOpen(p.dst_port)) {
+         egress = 1
+       }
+     }
+  }
+  
+  return egress
+}
+
+
+  

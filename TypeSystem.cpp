@@ -175,7 +175,7 @@ Type *TypeSystem::getVarType(string typeStr) {
     return this->intTy;
   }
   if (typeStr.compare("port_t") == 0) {
-    return this->int16Ty;
+    return this->intTy;
   }
   if (typeStr.compare("in32_t") == 0) {
     return this->intTy;
